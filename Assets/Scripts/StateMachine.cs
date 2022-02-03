@@ -4,34 +4,35 @@ using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
-    [SerializeField] private GameObject menuScreen;
-    private GameObject currentScreen;
-    private int currentLevel = 1;
+    [SerializeField] private GameObject _menuScreen;
 
-    void Start()
+    private GameObject _currentScreen;
+    private int _currentLevel = 1;
+
+    private void Start()
     {
-        menuScreen.SetActive(true);
-        currentScreen = menuScreen;
+        _menuScreen.SetActive(true);
+        _currentScreen = _menuScreen;
     }
 
     public void ChangeState(GameObject nextScreen)
     {
-        if (currentScreen != null)
+        if (_currentScreen != null)
         {
-            currentScreen.SetActive(false);
+            _currentScreen.SetActive(false);
             nextScreen.SetActive(true);
-            currentScreen = nextScreen;
+            _currentScreen = nextScreen;
         }
     }
 
-    public int getCurrentLevel()
+    public int GetCurrentLevel()
     {
-        return currentLevel;
+        return _currentLevel;
     }
 
-    public void setCurrentLevel(int nextLevel)
+    public void SetCurrentLevel(int nextLevel)
     {
-        currentLevel = nextLevel;
+        _currentLevel = nextLevel;
     }
 
 }

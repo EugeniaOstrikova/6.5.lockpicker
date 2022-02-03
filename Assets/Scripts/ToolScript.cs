@@ -6,34 +6,33 @@ using UnityEngine.UI;
 
 public class ToolScript : MonoBehaviour
 {
-    public Text pinText1;
-    public Text pinText2;
-    public Text pinText3;
+    [SerializeField] private Text _pinText1;
+    [SerializeField] private Text _pinText2;
+    [SerializeField] private Text _pinText3;
 
-    public int stepForPin1;
-    public int stepForPin2;
-    public int stepForPin3;
+    [SerializeField] private int _stepForPin1;
+    [SerializeField] private int _stepForPin2;
+    [SerializeField] private int _stepForPin3;
 
-    public Text stepText;
+    [SerializeField] private Text _stepText;
 
-    void Start()
+    private void Start()
     {
-        stepText.text = createStepText();
+        _stepText.text = CreateStepText();
     }
 
-    private string createStepText ()
+    public void UpdatePins()
     {
-        return $"{stepForPin1}|{stepForPin2}|{stepForPin3}";
+        _pinText1.text = UpdatePin(_pinText1, _stepForPin1);
+        _pinText2.text = UpdatePin(_pinText2, _stepForPin2);
+        _pinText3.text = UpdatePin(_pinText3, _stepForPin3);
+    }
+    private string CreateStepText()
+    {
+        return $"{_stepForPin1}|{_stepForPin2}|{_stepForPin3}";
     }
 
-    public void updatePins ()
-    {
-        pinText1.text = updatePin(pinText1, stepForPin1);
-        pinText2.text = updatePin(pinText2, stepForPin2);
-        pinText3.text = updatePin(pinText3, stepForPin3);
-    }
-
-    private string updatePin (Text pinText, int stepForPin)
+    private string UpdatePin(Text pinText, int stepForPin)
     {
         int pinNewText = Convert.ToInt32(pinText.text) + stepForPin;
 
@@ -45,8 +44,4 @@ public class ToolScript : MonoBehaviour
         return pinNewText.ToString();
     }
 
-    void Update()
-    {
-        
-    }
 }

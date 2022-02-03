@@ -5,84 +5,82 @@ using UnityEngine.UI;
 
 public class GameControllerScript : MonoBehaviour
 {
-    public Text timerText;
-    public float timerTime = 30;
-    private float timeRemaining;
+    [SerializeField] private Text _timerText;
+    [SerializeField] private float _timerTime = 30;
+    [SerializeField] private float _timeRemaining;
 
-    public Text pinText1;
-    public Text pinText2;
-    public Text pinText3;
+    [SerializeField] private Text _pinText1;
+    [SerializeField] private Text _pinText2;
+    [SerializeField] private Text _pinText3;
 
-    public int startPinText1;
-    public int startPinText2;
-    public int startPinText3;
+    [SerializeField] private int _startPinText1;
+    [SerializeField] private int _startPinText2;
+    [SerializeField] private int _startPinText3;
 
-    private bool isGame = false;
+    [SerializeField] private GameObject _eventSystem;
+    [SerializeField] private GameObject _winCanvas;
+    [SerializeField] private GameObject _loseCanvas;
 
-    public GameObject eventSystem;
-    public GameObject winCanvas;
-    public GameObject loseCanvas;
+    private StateMachine _stateMachine;
+    private bool _isGame = false;
 
-    private StateMachine stateMachine;
-
-    void Start()
+    private void Start()
     {
-        stateMachine = eventSystem.GetComponent<StateMachine>();
+        _stateMachine = _eventSystem.GetComponent<StateMachine>();
 
-        startGame();
+        StartGame();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (pinText1.text == pinText2.text && pinText1.text == pinText3.text)
+        if (_pinText1.text == _pinText2.text && _pinText1.text == _pinText3.text)
         {
-            winLevel();
+            WinLevel();
         }
         
-        if (timeRemaining > 0)
+        if (_timeRemaining > 0)
         {
-            timeRemaining -= Time.deltaTime;
-            timerText.text = Mathf.FloorToInt(timeRemaining).ToString();
+            _timeRemaining -= Time.deltaTime;
+            _timerText.text = Mathf.FloorToInt(_timeRemaining).ToString();
         }
-        else if (timeRemaining <= 0 && isGame)
+        else if (_timeRemaining <= 0 && _isGame)
         {
-            loseGame();
-            isGame = false;
+            LoseGame();
+            _isGame = false;
         }
     }
 
-    public void startGame()
+    public void StartGame()
     {
-        int currentLevel = eventSystem.GetComponent<StateMachine>().getCurrentLevel();
-        isGame = true;
+        int currentLevel = _eventSystem.GetComponent<StateMachine>().GetCurrentLevel();
+        _isGame = true;
 
-        timeRemaining = timerTime;
-        timerText.text = timerTime.ToString();
+        _timeRemaining = _timerTime;
+        _timerText.text = _timerTime.ToString();
 
-        setStartPins(currentLevel);
+        SetStartPins(currentLevel);
     }
 
-    private void setStartPins(int currentLevel)
+    private void SetStartPins(int currentLevel)
     {
         switch (currentLevel)
         {
             case 1:
-                startPinText1 = 9;
-                startPinText2 = 5;
-                startPinText3 = 5;
+                _startPinText1 = 9;
+                _startPinText2 = 5;
+                _startPinText3 = 5;
                 print("Level 1");
                 break;
             case 2:
-                startPinText1 = 0;
-                startPinText2 = 4;
-                startPinText3 = 6;
+                _startPinText1 = 0;
+                _startPinText2 = 4;
+                _startPinText3 = 6;
                 print("Level 2");
                 break;
             case 3:
-                startPinText1 = 1;
-                startPinText2 = 3;
-                startPinText3 = 7;
+                _startPinText1 = 1;
+                _startPinText2 = 3;
+                _startPinText3 = 7;
                 print("Level 3");
                 break;
             default:
@@ -90,20 +88,20 @@ public class GameControllerScript : MonoBehaviour
                 break;
         }
 
-        pinText1.text = startPinText1.ToString();
-        pinText2.text = startPinText2.ToString();
-        pinText3.text = startPinText3.ToString();
+        _pinText1.text = _startPinText1.ToString();
+        _pinText2.text = _startPinText2.ToString();
+        _pinText3.text = _startPinText3.ToString();
     }
 
-    private void winLevel()
+    private void WinLevel()
     {
-        stateMachine.ChangeState(winCanvas);
-        winCanvas.GetComponent<WinPopupScript>().afterNavigate();
+        _stateMachine.ChangeState(_winCanvas);
+        _winCanvas.GetComponent<WinPopupScript>().AfterNavigate();
     }
 
-    private void loseGame()
+    private void LoseGame()
     {
-        stateMachine.ChangeState(loseCanvas);
-        loseCanvas.GetComponent<LosePopupScript>().afterNavigate();
+        _stateMachine.ChangeState(_loseCanvas);
+        _loseCanvas.GetComponent<LosePopupScript>().AfterNavigate();
     }
 }

@@ -5,37 +5,29 @@ using UnityEngine.UI;
 
 public class TaskScript : MonoBehaviour
 {
-    public Text taskText;
+    [SerializeField] private Text _taskText;
+    [SerializeField] private GameObject _eventSystem;
 
-    public GameObject eventSystem;
-    private StateMachine stateMachine;
-
-    void Start()
+    public void AfterNavigate()
     {
-        stateMachine = eventSystem.GetComponent<StateMachine>();
+        int currentLevel = _eventSystem.GetComponent<StateMachine>().GetCurrentLevel();
+        SetText(currentLevel);
     }
 
-
-    public void afterNavigate()
-    {
-        int currentLevel = eventSystem.GetComponent<StateMachine>().getCurrentLevel();
-        setText(currentLevel);
-    }
-
-    private void setText(int currentLevel)
+    private void SetText(int currentLevel)
     {
         switch (currentLevel)
         {
             case 1:
-                taskText.text = "Взломай замок, чтобы проникнуть в дом.";
+                _taskText.text = "Взломай замок, чтобы проникнуть в дом.";
                 print("Level 1");
                 break;
             case 2:
-                taskText.text = "Взломай замок, чтобы войти в комнату.";
+                _taskText.text = "Взломай замок, чтобы войти в комнату.";
                 print("Level 2");
                 break;
             case 3:
-                taskText.text = "Взломай сейф, чтобы получить драгоценности.";
+                _taskText.text = "Взломай сейф, чтобы получить драгоценности.";
                 print("Level 3");
                 break;
             default:
